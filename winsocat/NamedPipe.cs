@@ -1,4 +1,5 @@
 ﻿using System.IO.Pipes;
+using System.Security.Principal;
 
 namespace Firejox.App.WinSocat;
 
@@ -6,14 +7,17 @@ public class NamedPipeStreamPiperInfo
 {
     private readonly string _serverName;
     private readonly string _pipeName;
+    private readonly string _acl;
 
     public string ServerName => _serverName;
     public string PipeName => _pipeName;
+    public string ACL => _acl;
 
-    public NamedPipeStreamPiperInfo(string serverName, string pipeName)
+    public NamedPipeStreamPiperInfo(string serverName, string pipeName, string acl)
     {
         _serverName = serverName;
         _pipeName = pipeName;
+        _acl = acl;
     }
     public static NamedPipeStreamPiperInfo TryParse(AddressElement element)
     {
@@ -31,24 +35,28 @@ public class NamedPipeStreamPiperInfo
 
         pipeName = element.Address.Substring(sepIndex + 1);
 
-        return new NamedPipeStreamPiperInfo(serverName, pipeName);
+        return new NamedPipeStreamPiperInfo(serverName, pipeName, element.Options.GetValueOrDefault("ACL", "AllowEveryone"));
     }
 }
 
 public class NamedPipeListenPiperInfo
 {
     private readonly string _pipeName;
-    public string PipeName => _pipeName;
+    private readonly string _acl = "AllowEveryone";
 
-    public NamedPipeListenPiperInfo(string pipeName)
+    public string PipeName => _pipeName;
+    public string ACL => _acl;
+
+    public NamedPipeListenPiperInfo(string pipeName, string acl = "AllowEveryone")
     {
         _pipeName = pipeName;
+        _acl = acl;
     }
 
     public static NamedPipeListenPiperInfo TryParse(AddressElement element)
     {
         if (element.Tag.Equals("NPIPE-LISTEN", StringComparison.OrdinalIgnoreCase))
-            return new NamedPipeListenPiperInfo(element.Address);
+            return new NamedPipeListenPiperInfo(element.Address, element.Options.GetValueOrDefault("ACL", "AllowEveryone"));
 
         return null!;
     }
@@ -135,6 +143,24 @@ public class NamedPipeListenPiper : IListenPiper
         _closed = false;
     }
 
+    public void SetPermissions(NamedPipeServerStream _serverStream)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            // Only allow current user
+            if (_info.ACL.Equals("AllowCurrentUser", StringComparison.OrdinalIgnoreCase))
+            {
+                var securityIdentifier = new SecurityIdentifier(WellKnownSidType.AuthenticatedUserSid, null);
+                var pipeAcl = new PipeAccessRule(securityIdentifier,
+                    PipeAccessRights.ReadWrite | PipeAccessRights.CreateNewInstance,
+                    System.Security.AccessControl.AccessControlType.Allow);
+                var pipeSecurity = new PipeSecurity();
+                pipeSecurity.AddAccessRule(pipeAcl);
+                _serverStream.SetAccessControl(pipeSecurity);
+            }
+        }
+    }
+
     public IPiper NewIncomingPiper()
     {
         _serverStream = new NamedPipeServerStream(
@@ -143,8 +169,8 @@ public class NamedPipeListenPiper : IListenPiper
             -1,
             PipeTransmissionMode.Byte,
             PipeOptions.Asynchronous);
+        SetPermissions(_serverStream);
         _serverStream.WaitForConnection();
-        
         var tmpServerStream = _serverStream;
         _serverStream = null;
         return new StreamPiper(tmpServerStream);
@@ -161,6 +187,7 @@ public class NamedPipeListenPiper : IListenPiper
             -1,
             PipeTransmissionMode.Byte,
             PipeOptions.Asynchronous);
+        SetPermissions(_serverStream);
         await _serverStream.WaitForConnectionAsync();
         
         var tmpServerStream = _serverStream;

@@ -37,6 +37,8 @@ The `address1` can accept `STDIO`, `TCP-LISTEN`, `TCP`, `NPIPE`, `NPIPE-LISTEN`,
 
 The `address2` can accept `STDIO`, `TCP`, `NPIPE`, `EXEC`, `WSL`, `UNIX`, `HVSOCK`, `SP` socket types.
 
+`NPIPE-LISTEN` supports the `ACL=AllowCurrentUser` parameter, in this case, no other user that is connected to the machine can read / write from / to the pipe. The default is `ACL=AllowEveryone`.
+
 ## Examples
 
 * It can bridge standard input/output and tcp connection to address **127.0.0.1** on port **80**.

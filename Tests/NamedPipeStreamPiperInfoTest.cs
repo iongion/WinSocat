@@ -24,7 +24,7 @@ public class NamedPipeStreamPiperInfoTest
    [TestCase("STDIO")]
    [TestCase("TCP:127.0.0.1:80")]
    [TestCase("TCP-LISTEN:127.0.0.1:80")]
-   [TestCase("NPIPE-LISTEN:fooPipe")] 
+   [TestCase("NPIPE-LISTEN:fooPipe")]
    [TestCase(@"EXEC:'C:\Foo.exe bar'")]
    public void InvalidInputParseTest(string input)
    {
