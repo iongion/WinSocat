@@ -10,7 +10,7 @@ public class TcpStreamPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.TcpStreamPiperInfo.TryParse(element));
+        Assert.That(TcpStreamPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("TCP:127.0.0.1:80")]
@@ -18,7 +18,7 @@ public class TcpStreamPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.TcpStreamPiperInfo.TryParse(element));
+        Assert.That(TcpStreamPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -29,7 +29,7 @@ public class TcpStreamPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(Firejox.App.WinSocat.TcpStreamPiperInfo.TryParse(element));
+        Assert.That(TcpStreamPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase("TCP:127.0.0.1:80", ExpectedResult = "127.0.0.1")]
@@ -38,7 +38,7 @@ public class TcpStreamPiperInfoTest
     public string HostPatternMatchTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        return Firejox.App.WinSocat.TcpStreamPiperInfo.TryParse(element).Host;
+        return TcpStreamPiperInfo.TryParse(element).Host;
     }
 
     [TestCase("TCP:127.0.0.1:80", ExpectedResult = 80)]
@@ -47,6 +47,6 @@ public class TcpStreamPiperInfoTest
     public int PortPatternMatchTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        return Firejox.App.WinSocat.TcpStreamPiperInfo.TryParse(element).Port;
+        return TcpStreamPiperInfo.TryParse(element).Port;
     }
 }

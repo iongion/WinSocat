@@ -10,7 +10,7 @@ public class NamedPipeStreamPiperInfoTest
    public void ValidInputParseTest(string input)
    {
       var element = AddressElement.TryParse(input);
-      Assert.NotNull(Firejox.App.WinSocat.NamedPipeStreamPiperInfo.TryParse(element));
+      Assert.That(NamedPipeStreamPiperInfo.TryParse(element), Is.Not.Null);
    }
 
    [TestCase("NPIPE:fooServer:barPipe")]
@@ -18,7 +18,7 @@ public class NamedPipeStreamPiperInfoTest
    public void CaseInsensitiveValidInputParseTest(string input)
    {
       var element = AddressElement.TryParse(input);
-      Assert.NotNull(Firejox.App.WinSocat.NamedPipeStreamPiperInfo.TryParse(element));
+      Assert.That(NamedPipeStreamPiperInfo.TryParse(element), Is.Not.Null);
    }
 
    [TestCase("STDIO")]
@@ -29,7 +29,7 @@ public class NamedPipeStreamPiperInfoTest
    public void InvalidInputParseTest(string input)
    {
       var element = AddressElement.TryParse(input);
-      Assert.Null(Firejox.App.WinSocat.NamedPipeStreamPiperInfo.TryParse(element));
+        Assert.That(NamedPipeStreamPiperInfo.TryParse(element), Is.Null);
    }
 
    [TestCase("NPIPE:fooServer:barPipe", ExpectedResult = "fooServer")]

@@ -10,7 +10,7 @@ public class NamedPipeListenPiperInfoTest
     public void VaildInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.NamedPipeListenPiperInfo.TryParse(element));
+        Assert.That(NamedPipeListenPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("NPIPE-LISTEN:fooPipe")]
@@ -18,7 +18,7 @@ public class NamedPipeListenPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.NamedPipeListenPiperInfo.TryParse(element));
+        Assert.That(NamedPipeListenPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -31,7 +31,7 @@ public class NamedPipeListenPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(Firejox.App.WinSocat.NamedPipeListenPiperInfo.TryParse(element));
+        Assert.That(NamedPipeListenPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase("NPIPE-LISTEN:fooPipe")]
@@ -41,19 +41,19 @@ public class NamedPipeListenPiperInfoTest
     {
         // Case 1 - Default ACL
         var element = AddressElement.TryParse("NPIPE-LISTEN:fooPipe");
-        var parsed = Firejox.App.WinSocat.NamedPipeListenPiperInfo.TryParse(element);
+        var parsed = NamedPipeListenPiperInfo.TryParse(element);
         Assert.That(parsed.PipeName, Is.EqualTo("fooPipe"));
         Assert.That(parsed.ACL, Is.EqualTo("AllowEveryone"));
 
         // Case 2 - AllowEveryone ACL
         element = AddressElement.TryParse("NPIPE-LISTEN:fooPipe,ACL=AllowEveryone");
-        parsed = Firejox.App.WinSocat.NamedPipeListenPiperInfo.TryParse(element);
+        parsed = NamedPipeListenPiperInfo.TryParse(element);
         Assert.That(parsed.PipeName, Is.EqualTo("fooPipe"));
         Assert.That(parsed.ACL, Is.EqualTo("AllowEveryone"));
 
         // Case 3 - AllowCurrentUser ACL
         element = AddressElement.TryParse("NPIPE-LISTEN:fooPipe,ACL=AllowCurrentUser");
-        parsed = Firejox.App.WinSocat.NamedPipeListenPiperInfo.TryParse(element);
+        parsed = NamedPipeListenPiperInfo.TryParse(element);
         Assert.That(parsed.PipeName, Is.EqualTo("fooPipe"));
         Assert.That(parsed.ACL, Is.EqualTo("AllowCurrentUser"));
 

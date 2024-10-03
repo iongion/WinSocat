@@ -104,7 +104,7 @@ public class PiperStrategyTest
         _writeStream.Seek(0, SeekOrigin.Begin);
         var reader = new StreamReader(_writeStream);
         
-        StringAssert.AreEqualIgnoringCase("Foo", reader.ReadToEnd());
+        Assert.That(reader.ReadToEnd(), Is.EqualTo("Foo").IgnoreCase);
     }
 
     [Test]
@@ -150,9 +150,9 @@ public class PiperStrategyTest
 
         _writeStream.Seek(0, SeekOrigin.Begin);
         var reader = new StreamReader(_writeStream);
-        
-        StringAssert.AreEqualIgnoringCase("Foo", tcs.Task.Result);
-        StringAssert.AreEqualIgnoringCase("Bar", reader.ReadToEnd());
+
+        Assert.That(tcs.Task.Result, Is.EqualTo("Foo").IgnoreCase);
+        Assert.That(reader.ReadToEnd(), Is.EqualTo("Bar").IgnoreCase);
     }
 
     [Test]
@@ -188,8 +188,9 @@ public class PiperStrategyTest
 
         _writeStream.Seek(0, SeekOrigin.Begin);
         var reader = new StreamReader(_writeStream);
-        StringAssert.AreEqualIgnoringCase("Bar", reader.ReadToEnd());
-        StringAssert.AreEqualIgnoringCase("Foo", tcs.Task.Result);
+
+        Assert.That(reader.ReadToEnd(), Is.EqualTo("Bar").IgnoreCase);
+        Assert.That(tcs.Task.Result, Is.EqualTo("Foo").IgnoreCase);
     }
 
     [Test]
@@ -242,13 +243,15 @@ public class PiperStrategyTest
         
         _writeStream.Seek(0, SeekOrigin.Begin);
         var reader = new StreamReader(_writeStream);
-        StringAssert.AreEqualIgnoringCase("Bar", reader.ReadToEnd());
-        StringAssert.AreEqualIgnoringCase("Foo", tcs.Task.Result);
+
+        Assert.That(reader.ReadToEnd(), Is.EqualTo("Bar").IgnoreCase);
+        Assert.That(tcs.Task.Result, Is.EqualTo("Foo").IgnoreCase);
     }
 
     [TearDown]
     public void CleanUp()
     {
         _writeStream.Dispose();
+        _writer.Dispose();
     }
 }

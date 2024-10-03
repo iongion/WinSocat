@@ -51,14 +51,15 @@ public class TcpListenPiperTest
 
         writer.WriteLine("Foo");
         writer.Flush();
-                
-        StringAssert.AreEqualIgnoringCase("Foo", reader.ReadLine());
+
+        Assert.That(reader.ReadLine(), Is.EqualTo("Foo").IgnoreCase);
     }
 
     [TearDown]
     public void CleanUp()
     {
         _source.Cancel();
+        _source.Dispose();
     }
     
     

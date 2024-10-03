@@ -9,7 +9,7 @@ public class UnixSocketListenPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(UnixSocketListenPiperInfo.TryParse(element));
+        Assert.That(UnixSocketListenPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("UNIX-LISTEN:foo.sock")]
@@ -17,7 +17,7 @@ public class UnixSocketListenPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(UnixSocketListenPiperInfo.TryParse(element));
+        Assert.That(UnixSocketListenPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -30,7 +30,7 @@ public class UnixSocketListenPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(UnixSocketListenPiperInfo.TryParse(element));
+        Assert.That(UnixSocketListenPiperInfo.TryParse(element), Is.Null);
     }
     
     [TestCase("UNIX-LISTEN:foo.sock", ExpectedResult = "foo.sock")]

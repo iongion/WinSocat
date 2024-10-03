@@ -9,9 +9,11 @@ namespace Firejox.App.WinSocat
             var arg1 = new Argument<string>("address1");
             var arg2 = new Argument<string>("address2");
 
-            var rootCommand = new RootCommand();
-            rootCommand.Add(arg1);
-            rootCommand.Add(arg2);
+            var rootCommand = new RootCommand
+            {
+                arg1,
+                arg2
+            };
             
             rootCommand.SetHandler(async (address1, address2) =>
             {

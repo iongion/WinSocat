@@ -1,4 +1,5 @@
 ﻿using Firejox.App.WinSocat;
+
 namespace APPTest;
 
 public class HyperVStreamPiperInfoTest
@@ -24,7 +25,7 @@ public class HyperVStreamPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(HyperVStreamPiperInfo.TryParse(element));
+        Assert.That(HyperVStreamPiperInfo.TryParse(element), Is.Not.Null);
     }
     
     [TestCase("HVSOCK:00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000")]
@@ -38,7 +39,7 @@ public class HyperVStreamPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(HyperVStreamPiperInfo.TryParse(element));
+        Assert.That(HyperVStreamPiperInfo.TryParse(element), Is.Not.Null);
     }
     
     [TestCase("STDIO")]
@@ -52,7 +53,7 @@ public class HyperVStreamPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(HyperVStreamPiperInfo.TryParse(element));
+        Assert.That(HyperVStreamPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase("HVSOCK:00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000", ExpectedResult = "00000000-0000-0000-0000-000000000000")]

@@ -11,7 +11,7 @@ public class SerialPortPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(SerialPortPiperInfo.TryParse(element));
+        Assert.That(SerialPortPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("sp:COM1")]
@@ -19,7 +19,7 @@ public class SerialPortPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(SerialPortPiperInfo.TryParse(element));
+        Assert.That(SerialPortPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -33,7 +33,7 @@ public class SerialPortPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(SerialPortPiperInfo.TryParse(element));
+        Assert.That(SerialPortPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase("sp:COM1", ExpectedResult = "COM1")]

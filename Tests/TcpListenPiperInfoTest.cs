@@ -11,7 +11,7 @@ public class TcpListenPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.TcpListenPiperInfo.TryParse(element));
+        Assert.That(Firejox.App.WinSocat.TcpListenPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("TCP-LISTEN:127.0.0.1:80")]
@@ -19,7 +19,7 @@ public class TcpListenPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.TcpListenPiperInfo.TryParse(element));
+        Assert.That(Firejox.App.WinSocat.TcpListenPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -30,7 +30,7 @@ public class TcpListenPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(Firejox.App.WinSocat.TcpListenPiperInfo.TryParse(element));
+        Assert.That(Firejox.App.WinSocat.TcpListenPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCaseSource(nameof(AddressCases))]

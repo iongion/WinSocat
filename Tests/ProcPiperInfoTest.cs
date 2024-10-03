@@ -10,7 +10,7 @@ public class ProcPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.ProcPiperInfo.TryParse(element));
+        Assert.That(ProcPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase(@"EXEC:C:\Foo.exe bar")]
@@ -18,7 +18,7 @@ public class ProcPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(Firejox.App.WinSocat.ProcPiperInfo.TryParse(element));
+        Assert.That(ProcPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -29,7 +29,7 @@ public class ProcPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(Firejox.App.WinSocat.ProcPiperInfo.TryParse(element));
+        Assert.That(ProcPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase(@"EXEC:C:\Foo.exe bar", ExpectedResult = @"C:\Foo.exe")]
@@ -38,7 +38,7 @@ public class ProcPiperInfoTest
     public string FileNamePatternMatchTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        return Firejox.App.WinSocat.ProcPiperInfo.TryParse(element).FileName;
+        return ProcPiperInfo.TryParse(element).FileName;
     }
 
     [TestCase(@"EXEC:C:\Foo.exe bar1 bar2", ExpectedResult = "bar1 bar2")]
@@ -46,6 +46,6 @@ public class ProcPiperInfoTest
     public string ArgumentPatternMatchTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        return Firejox.App.WinSocat.ProcPiperInfo.TryParse(element).Arguments;
+        return ProcPiperInfo.TryParse(element).Arguments;
     }
 }

@@ -18,10 +18,10 @@ jobs:
     runs-on: windows-latest
     steps:
         - uses: actions/checkout@v3
-        - name: Setup .Net 6.0
+        - name: Setup .Net 8.0
           uses: actions/setup-dotnet@v3
           with:
-            dotnet-version: '6.0'
+            dotnet-version: '8.0'
         - name: Install dependencies
           run: dotnet restore
         - name: Build

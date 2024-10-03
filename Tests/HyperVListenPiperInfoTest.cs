@@ -25,7 +25,7 @@ public class HyperVListenPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(HyperVListenPiperInfo.TryParse(element));
+        Assert.That(HyperVListenPiperInfo.TryParse(element), Is.Not.Null);
     }
     
     [TestCase("HVSOCK-LISTEN:00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000")]
@@ -39,7 +39,7 @@ public class HyperVListenPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(HyperVListenPiperInfo.TryParse(element));
+        Assert.That(HyperVListenPiperInfo.TryParse(element), Is.Not.Null);
     }
     
     [TestCase("STDIO")]
@@ -53,7 +53,7 @@ public class HyperVListenPiperInfoTest
     public void InvalidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(HyperVListenPiperInfo.TryParse(element));
+        Assert.That(HyperVListenPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase("HVSOCK-LISTEN:00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000", ExpectedResult = "00000000-0000-0000-0000-000000000000")]

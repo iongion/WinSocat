@@ -13,7 +13,7 @@ public class AddressElementTest
     [TestCase("tag:\'foo \"bar\"\',opt1,opt2")]
     public void ValidInputParseTest(string input)
     {
-        Assert.NotNull(AddressElement.TryParse(input));
+        Assert.That(AddressElement.TryParse(input), Is.Not.Null);
     }
 
     [TestCase("tag:\'foo\"")]
@@ -21,7 +21,7 @@ public class AddressElementTest
     [TestCase("tag:\'foo \"bar\',opt1, opt2")]
     public void InvalidInputParseTest(string input)
     {
-        Assert.Null(AddressElement.TryParse(input));
+        Assert.That(AddressElement.TryParse(input), Is.Null);
     }
 
     [TestCase("STDIO", ExpectedResult = "STDIO")]

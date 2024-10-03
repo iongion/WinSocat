@@ -9,7 +9,8 @@ public class UnixSocketStreamPiperInfoTest
     public void ValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(UnixSocketStreamPiperInfo.TryParse(element));
+        Assert.That(UnixSocketStreamPiperInfo.TryParse(element), Is.Not.Null);
+
     }
 
     [TestCase("UNIX:foo.sock")]
@@ -17,7 +18,7 @@ public class UnixSocketStreamPiperInfoTest
     public void CaseInsensitiveValidInputParseTest(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.NotNull(UnixSocketStreamPiperInfo.TryParse(element));
+        Assert.That(UnixSocketStreamPiperInfo.TryParse(element), Is.Not.Null);
     }
 
     [TestCase("STDIO")]
@@ -29,7 +30,7 @@ public class UnixSocketStreamPiperInfoTest
     public void InvalidInputParse(string input)
     {
         var element = AddressElement.TryParse(input);
-        Assert.Null(UnixSocketStreamPiperInfo.TryParse(element));
+        Assert.That(UnixSocketStreamPiperInfo.TryParse(element), Is.Null);
     }
 
     [TestCase("UNIX:foo.sock", ExpectedResult = "foo.sock")]

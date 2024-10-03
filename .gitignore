@@ -2,4 +2,5 @@
 /winsocat/bin/
 /Tests/obj
 /Tests/bin
+/.vs
 *.user
